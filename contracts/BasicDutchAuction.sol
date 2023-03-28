@@ -11,7 +11,7 @@ contract BasicDutchAuction {
     uint256 public reservePrice;
     // address judgeAddress;
     uint256 public numBlocksActionOpen;
-    uint256 offerPriceDecrement;
+    uint256 public offerPriceDecrement;
     uint startBlockNumber;
     uint public winningBidAmount;
     bool public auctionEnded;

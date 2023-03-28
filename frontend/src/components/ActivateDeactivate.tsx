@@ -104,11 +104,13 @@ function Activate(): ReactElement {
 function Deactivate(): ReactElement {
   const context = useWeb3React<Provider>();
   const { deactivate, active } = context;
+  console.log('active: ', active);
 
   function handleDeactivate(event: MouseEvent<HTMLButtonElement>): void {
     event.preventDefault();
 
     deactivate();
+    console.log("deactivated");
   }
 
   return (
@@ -127,6 +129,7 @@ function Deactivate(): ReactElement {
 
 export function ActivateDeactivate(): ReactElement {
   const context = useWeb3React<Provider>();
+  console.log('context: ', context);
   const { error } = context;
 
   if (!!error) {

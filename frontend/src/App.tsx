@@ -1,10 +1,11 @@
 import { ReactElement } from 'react';
 import styled from 'styled-components';
 import { ActivateDeactivate } from './components/ActivateDeactivate';
-// import { Greeter } from './components/Greeter';
-// import { SectionDivider } from './components/SectionDivider';
-// import { SignMessage } from './components/SignMessage';
-// import { WalletStatus } from './components/WalletStatus';
+import { DeployContract } from './components/DeployContract';
+// import { LookUpContract } from './components/LookUp';
+import { Bid } from './components/Bid';
+import { SectionDivider } from './components/SectionDivider';
+import { WalletStatus } from './components/WalletStatus';
 
 const StyledAppDiv = styled.div`
   display: grid;
@@ -16,12 +17,14 @@ export function App(): ReactElement {
   return (
     <StyledAppDiv>
       <ActivateDeactivate />
-      {/* <SectionDivider />
+      <SectionDivider />
       <WalletStatus />
       <SectionDivider />
-      <SignMessage />
+      <DeployContract />
       <SectionDivider />
-      <Greeter /> */}
+      {/* <LookUpContract /> */}
+      <SectionDivider />
+      <Bid />
     </StyledAppDiv>
   );
 }
