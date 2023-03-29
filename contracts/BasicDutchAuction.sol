@@ -33,6 +33,10 @@ contract BasicDutchAuction {
         auctionEnded = false;
     }
 
+    function getInfo() public {
+        updatePrice();
+    }
+
     function bid() public payable returns(address) {
         if(auctionEnded && winnerAddress != address(0) && msg.sender != winnerAddress) {
             address payable refundCaller = payable(msg.sender);

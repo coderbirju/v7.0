@@ -1,7 +1,7 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
-import { Contract, Signer, utils } from 'ethers';
+import { Contract, Signer } from 'ethers';
 
 describe('Deploy the Dutch Auction Contract', function () {
 
@@ -34,8 +34,6 @@ describe('Deploy the Dutch Auction Contract', function () {
     let owner2: Signer;
     let auctionEndBlock: number;
     let initialPrice: number;
-    const wallet = utils.getAddress(`0x0000000000000000000000000000000000000000`);
-    const buyer = utils.getAddress(`0x0000000000000000000000000000000000000000`);
   
     beforeEach(async () => {
       [owner, owner2] = await ethers.getSigners();

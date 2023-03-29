@@ -4,69 +4,101 @@ import {
   NoEthereumProviderError,
   UserRejectedRequestError
 } from '@web3-react/injected-connector';
-import {  ReactElement, useState } from 'react';
+import {  ChangeEvent, ReactElement, useState } from 'react';
 import { Provider } from '../utils/provider';
 import styled from 'styled-components';
+import { ethers } from 'ethers';
+import BasicDutchAuctionArtifact from '../artifacts/contracts/BasicDutchAuction.sol/BasicDutchAuction.json';
 
 
-// type ActivateFunction = (
-//     connector: AbstractConnector,
-//     onError?: (error: Error) => void,
-//     throwErrors?: boolean
-//   ) => Promise<void>;
-
-//   function getErrorMessage(error: Error): string {
-//     let errorMessage: string;
-  
-//     switch (error.constructor) {
-//       case NoEthereumProviderError:
-//         errorMessage = `No Ethereum browser extension detected. Please install MetaMask extension.`;
-//         break;
-//       case UnsupportedChainIdError:
-//         errorMessage = `You're connected to an unsupported network.`;
-//         break;
-//       case UserRejectedRequestError:
-//         errorMessage = `Please authorize this website to access your Ethereum account.`;
-//         break;
-//       default:
-//         errorMessage = error.message;
-//     }
-  
-//     return errorMessage;
-//   }
-
-const StyledLine = styled.hr`
-  border: 3px solid #000;
+const StyledButton = styled.button`
+  width: 150px;
+  height: 2rem;
+  border-radius: 1rem;
+  border-color: blue;
+  cursor: pointer;
+  place-self: center;
 `;
 
+  function getErrorMessage(error: Error): string {
+    let errorMessage: string;
+  
+    switch (error.constructor) {
+      case NoEthereumProviderError:
+        errorMessage = `No Ethereum browser extension detected. Please install MetaMask extension.`;
+        break;
+      case UnsupportedChainIdError:
+        errorMessage = `You're connected to an unsupported network.`;
+        break;
+      case UserRejectedRequestError:
+        errorMessage = `Please authorize this website to access your Ethereum account.`;
+        break;
+      default:
+        errorMessage = error.message;
+    }
+  
+    return errorMessage;
+  }
+
+
   export function Bid(): ReactElement {
-    // const context = useWeb3React<Provider>();
+    const context = useWeb3React<Provider>();
     let [contractAddress, setContractAddress] = useState<string>('');
     let [winner, setWinner] = useState<string>('');
     let [bidAmount, setBidAmount] = useState<number>(0);
-    // console.log('context: ', context);
-    // const { error } = context;
-    // setContractAddress('0x000000');
-    // setWinner('');
+    const { error, library } = context;
     
+
+    const handleBid = async () => {
+      if(!library || !contractAddress || !bidAmount) {
+        window.alert('Please connect to a wallet and enter a contract address and bid amount');
+        return;
+      }
+
+      const basicDutchAuction = new ethers.Contract(contractAddress, BasicDutchAuctionArtifact.abi, library.getSigner());
+      await basicDutchAuction.getInfo();
+      const currentPrice = await basicDutchAuction.currentPrice();
+      if(bidAmount < currentPrice) {
+        window.alert('Your bid must be greater than the current price');
+        return;
+      }
+      try {
+             const bid =  await basicDutchAuction.bid({value: ethers.BigNumber.from(bidAmount)});
+             await bid.wait();
+             if(bid) {
+                window.alert('Bid successful');
+                const winner1 = await basicDutchAuction.winner();
+                setWinner(winner1);
+             }
+            } catch(e: any) {
+              window.alert('Bid failed');
+            }
+    }
   
-    // if (!!error) {
-    //   window.alert(getErrorMessage(error));
-    // }
+    if (!!error) {
+      window.alert(getErrorMessage(error));
+    }
+
+    const handleContractAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+      setContractAddress(event.target.value);
+    }
+
+    const handleBidAmountChange = (event: any) => {
+      setBidAmount(event.target.value);
+    }
   
     return (
         <>
-        <StyledLine></StyledLine>
             <>
                 <>
                     <h1> Contract Details: </h1>
                 </>
                 <div>
                     <label> Deployed contract address</label>
-                    <input onChange={() => setContractAddress(contractAddress)} type="text" value={contractAddress}/>
+                    <input onChange={handleContractAddressChange} type="text" value={contractAddress}/>
                     <label> Bid Amount </label>
-                    <input type="text" pattern="[0-9]*" onChange={() => setBidAmount(bidAmount)} value={bidAmount} />
-                    <span> <button>Bid</button> </span>
+                    <input type="text" pattern="[0-9]*" onChange={handleBidAmountChange} value={bidAmount} />
+                    <span> <StyledButton onClick={handleBid}>Bid</StyledButton> </span>
                 </div>          
                 <>
                     <h3> Auction Details: </h3>

@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import styled from 'styled-components';
 import { ActivateDeactivate } from './components/ActivateDeactivate';
 import { DeployContract } from './components/DeployContract';
-// import { LookUpContract } from './components/LookUp';
+import { LookUpContract } from './components/LookUp';
 import { Bid } from './components/Bid';
 import { SectionDivider } from './components/SectionDivider';
 import { WalletStatus } from './components/WalletStatus';
@@ -22,7 +22,7 @@ export function App(): ReactElement {
       <SectionDivider />
       <DeployContract />
       <SectionDivider />
-      {/* <LookUpContract /> */}
+      <LookUpContract />
       <SectionDivider />
       <Bid />
     </StyledAppDiv>
