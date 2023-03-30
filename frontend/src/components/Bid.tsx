@@ -67,11 +67,15 @@ const StyledButton = styled.button`
              await bid.wait();
              if(bid) {
                 window.alert('Bid successful');
-                const winner1 = await basicDutchAuction.winner();
-                setWinner(winner1);
+                try {
+                  const winner1 = await basicDutchAuction.winnerAddress();
+                  setWinner(winner1);
+                } catch(error: any) {
+                  window.alert(getErrorMessage(error));
+                }
              }
-            } catch(e: any) {
-              window.alert('Bid failed');
+            } catch(error: any) {
+              window.alert(getErrorMessage(error));
             }
     }
   
