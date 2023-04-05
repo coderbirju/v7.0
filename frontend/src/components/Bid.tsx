@@ -58,6 +58,14 @@ const StyledButton = styled.button`
       const basicDutchAuction = new ethers.Contract(contractAddress, BasicDutchAuctionArtifact.abi, library.getSigner());
       await basicDutchAuction.getInfo();
       const currentPrice = await basicDutchAuction.currentPrice();
+      const currentOwner = await basicDutchAuction.addressOfOwner();
+      console.log('currentOwner: ', currentOwner);
+
+      if(currentOwner === context.account) {
+        window.alert('Owner cannot bid on their own auction');
+        return;
+      }
+
       if(bidAmount < currentPrice) {
         window.alert('Your bid must be greater than the current price');
         return;

@@ -9,7 +9,6 @@ contract BasicDutchAuction {
     address payable public winnerAddress;
     uint256 public auctionEndBlock;
     uint256 public reservePrice;
-    // address judgeAddress;
     uint256 public numBlocksActionOpen;
     uint256 public offerPriceDecrement;
     uint startBlockNumber;
@@ -38,6 +37,7 @@ contract BasicDutchAuction {
     }
 
     function bid() public payable returns(address) {
+        require(msg.sender != addressOfOwner, "Owner cannot bid");
         if(auctionEnded && winnerAddress != address(0) && msg.sender != winnerAddress) {
             address payable refundCaller = payable(msg.sender);
             refundCaller.transfer(address(this).balance);
