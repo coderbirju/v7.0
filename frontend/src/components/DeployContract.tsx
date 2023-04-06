@@ -158,7 +158,7 @@ import styled from 'styled-components';
                     borderColor: !active || basicDutchAuction ? 'unset' : 'blue'
                   }}
                   onClick={handleDeployContract}
-                > Deploy Basic Dutch Auction</StyledDeployContractButton>
+                > Deploy Basic Dutch Auction </StyledDeployContractButton>
           </div>
 
           <div>

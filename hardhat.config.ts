@@ -1,17 +1,20 @@
+import * as dotenv from "dotenv";
+dotenv.config({ path: __dirname+'/.env' });
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 
+const { API_URL, PRIVATE_KEY } = process.env;
+// const ALCHEMY_API_KEY = "QWHzSh8MduwXC_Dy7st1M2iP7XDJOTuG";
 
-const ALCHEMY_API_KEY = "";
+// const SEPOLIA_PRIVATE_KEY = "73a45eb41f68402607c288269d99c81f6f37f5a7aabb30168a257e4337fb63e7";
 
-const SEPOLIA_PRIVATE_KEY = "";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.18",
   networks: {
     sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
-      accounts: [SEPOLIA_PRIVATE_KEY]
+      url: `${API_URL}`,
+      accounts: [`${PRIVATE_KEY}`]
     }
   }
 };

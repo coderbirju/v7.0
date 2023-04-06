@@ -5,6 +5,8 @@ async function main() {
     const BLOCKS_TO_AUCTION = 10;
     const PRICE_DECREASE = 100;
 
+    const [deployer] = await ethers.getSigners();
+
     const BasicDutchAuction = await ethers.getContractFactory("BasicDutchAuction");  
     const basicDutchAuction = await BasicDutchAuction.deploy(RESERVE_PRICE, BLOCKS_TO_AUCTION, PRICE_DECREASE);
 
