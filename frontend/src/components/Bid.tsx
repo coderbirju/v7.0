@@ -103,7 +103,7 @@ const StyledButton = styled.button`
         <>
             <>
                 <>
-                    <h1> Contract Details: </h1>
+                    <h1 style={{ textAlign: 'center'}}> Contract Details: </h1>
                 </>
                 <div>
                     <label> Deployed contract address</label>

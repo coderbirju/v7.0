@@ -139,7 +139,7 @@ import styled from 'styled-components';
     return (
       <>
           <>
-              <h1> Deploy Contract : </h1>
+              <h1 style={{ textAlign: 'center'}}> Deploy Contract : </h1>
           </>
           <div>
             <label> Reserve Price </label>

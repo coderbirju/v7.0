@@ -47,6 +47,7 @@ export function LookUpContract(): ReactElement {
   let [contractAddress, setContractAddress] = useState<string>('');
   let [currentPriceLookUp, setCurrentPrice] = useState<number>();
   let [winner, setWinner] = useState<string>('');
+  let [auctionEnded, setAuctionEnded] = useState<boolean>(false);
  
   const handleContractAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
     setContractAddress(event.target.value);
@@ -59,9 +60,11 @@ export function LookUpContract(): ReactElement {
     const priceDecrementLookUp = await basicDutchAuction.offerPriceDecrement();
     const currentPrice = await basicDutchAuction.currentPrice();
     const winner = await basicDutchAuction.winnerAddress();
+    const auctionStatus = await basicDutchAuction.auctionEnded();
     setreservePriceLookUp(reservePriceLookUp.toNumber());
     setPriceDecrementLookUp(priceDecrementLookUp.toNumber());
     setCurrentPrice(currentPrice.toNumber());
+    setAuctionEnded(auctionStatus);
     setWinner(winner);
   }
 
@@ -73,7 +76,7 @@ export function LookUpContract(): ReactElement {
       <>
           <>
               <>
-                  <h1> Look Up Contract Details: </h1>
+                  <h1 style={{ textAlign: 'center'}}> Look Up Contract Details: </h1>
               </>
               <div>
                       <label> Deployed contract address: </label>
@@ -99,6 +102,8 @@ export function LookUpContract(): ReactElement {
                   <input type="text" value={reservePriceLookUp} readOnly/>
                   <label> Price Decrement: </label>
                   <input type="text" value={priceDecrementLookUp} readOnly/>
+                  <label> Auction Status: </label>
+                  <p> {auctionEnded ? 'Open' : 'Closed'} </p>
               </div>
           </>
       </>
